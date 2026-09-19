@@ -87,5 +87,7 @@ Regular (non-admin) accounts are redirected away from `/admin` automatically.
 
 - Stripe webhook handling (for async payment confirmation) requires the Stripe CLI for local testing — not covered in this setup.
 - Product category images on the homepage use a placeholder gradient until real photography is added to `/public`.
+- The public catalog API caps page size at 10 products per request (a deliberate backend limit). The admin dashboard fetches all pages automatically to display the full catalog.
+- Product sorting supports Name (A-Z/Z-A) and Price (Low-High/High-Low) only — there's no "newest" sort option.
 
 ## Project Structure
