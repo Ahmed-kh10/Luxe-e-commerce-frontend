@@ -1,26 +1,187 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* ===== Color Palette — Luxury Monochrome + Gold Accent ===== */
+  --color-ink-950: #0a0a0a;
+  --color-ink-900: #121212;
+  --color-ink-800: #1c1c1c;
+  --color-ink-700: #2e2e2e;
+  --color-ink-600: #4a4a4a;
+  --color-ink-500: #6b6b6b;
+  --color-ink-400: #9a9a9a;
+  --color-ink-300: #c4c4c4;
+  --color-ink-200: #e0e0e0;
+  --color-ink-100: #f0f0f0;
+  --color-ink-50: #fafafa;
+
+  --color-gold-600: #a8862f;
+  --color-gold-500: #c9a227;
+  --color-gold-400: #d9bd5f;
+  --color-gold-300: #e8d89a;
+
+  --color-surface: #ffffff;
+  --color-surface-muted: #fafaf9;
+
+  /* ===== Fixed "obsidian" scale — ALWAYS dark, in both light and dark
+     mode. Lives here inside @theme (NOT inside [data-theme="dark"])
+     specifically so it never flips. ===== */
+  --color-obsidian-950: #0a0a0a;
+  --color-obsidian-900: #121212;
+  --color-obsidian-800: #1c1c1c;
+  --color-obsidian-400: #9a9a9a;
+  --color-obsidian-300: #c4c4c4;
+
+  /* ===== Typography ===== */
+  --font-serif-luxury: 'Playfair Display', Georgia, serif;
+  --font-sans-clean: 'Inter', -apple-system, sans-serif;
+
+  /* ===== Spacing / Radius / Shadow — Consistent System ===== */
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.08);
+  --shadow-gold-glow: 0 0 0 1px rgba(201, 162, 39, 0.3);
+
+  /* ===== Shimmer animation for skeletons ===== */
+  --animate-shimmer: shimmer 1.8s infinite;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@keyframes badge-pop {
+  0% {
+    transform: scale(0.5);
+  }
+  70% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(2rem) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes search-item-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Dark Mode — overrides the ADAPTIVE ink/surface tokens only.
+   obsidian-* is intentionally NOT touched here — it stays fixed. ===== */
+[data-theme='dark'] {
+  --color-ink-950: #fafafa;
+  --color-ink-900: #f0f0f0;
+  --color-ink-800: #e0e0e0;
+  --color-ink-700: #c4c4c4;
+  --color-ink-600: #9a9a9a;
+  --color-ink-500: #7a7a7a;
+  --color-ink-400: #6b6b6b;
+  --color-ink-300: #4a4a4a;
+  --color-ink-200: #2e2e2e;
+  --color-ink-100: #1c1c1c;
+  --color-ink-50: #121212;
+
+  --color-surface: #0a0a0a;
+  --color-surface-muted: #121212;
+
+  --shadow-soft: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-elevated: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-ink-200);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-ink-900);
+    font-family: var(--font-sans-clean);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif-luxury);
+    letter-spacing: -0.01em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .link-underline {
+    position: relative;
+    text-decoration: none;
+  }
+
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-gold-500);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.65, 0, 0.35, 1);
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .heading-accent {
+    position: relative;
+    padding-bottom: 1rem;
+  }
+
+  .heading-accent::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3rem;
+    height: 2px;
+    background-color: var(--color-gold-500);
+  }
 }
