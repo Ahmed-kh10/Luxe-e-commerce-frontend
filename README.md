@@ -1,4 +1,5 @@
 # Luxe — Premium E-commerce Frontend
+> Frontend for the [Luxe E-commerce Backend](https://github.com/Ahmed-kh10/Luxe-e-commerce-backend) — an ASP.NET Core 8 API with Clean Architecture, JWT auth, Redis caching, and Stripe payments.
 
 A production-grade e-commerce storefront built with Next.js 16 (App Router) and TypeScript, consuming a separate ASP.NET Core 8 backend API. Built as a portfolio project with an emphasis on premium visual design, real state management, accessibility, and performance.
 
@@ -86,8 +87,10 @@ Regular (non-admin) accounts are redirected away from `/admin` automatically.
 ## Known Limitations
 
 - Stripe webhook handling (for async payment confirmation) requires the Stripe CLI for local testing — not covered in this setup.
-- Product category images on the homepage use a placeholder gradient until real photography is added to `/public`.
+- Product category images on the homepage use a placeholder gradient until real photography is added to
+- `/public`.
 - The public catalog API caps page size at 10 products per request (a deliberate backend limit). The admin dashboard fetches all pages automatically to display the full catalog.
 - Product sorting supports Name (A-Z/Z-A) and Price (Low-High/High-Low) only — there's no "newest" sort option.
 
 ## Project Structure
+
